@@ -1,6 +1,9 @@
+(setq display-line-numbers-type 'relative)
+
 (load-theme 'tango-dark t)
 (tool-bar-mode 0)
 (menu-bar-mode 0)
 (scroll-bar-mode 0)
 (global-display-line-numbers-mode)
 (show-paren-mode 1)
+(ido-mode)
