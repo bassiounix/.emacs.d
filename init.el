@@ -18,12 +18,10 @@
     :ensure t)
 
 (use-package autothemer :ensure t)
+(use-package company :ensure t)
 
 (require 'eglot)
 (add-to-list 'eglot-server-programs '((c++-mode c-mode) "clangd"))
 (add-hook 'c-mode-hook 'eglot-ensure)
 (add-hook 'c++-mode-hook 'eglot-ensure)
 (add-hook 'python-mode-hook 'eglot-ensure)
-
-;;(add-hook 'prog-mode-hook #'lsp-deferred)
-;;(use-package lsp-java :config (add-hook 'java-mode-hook 'lsp-deferred))
