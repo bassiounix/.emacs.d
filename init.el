@@ -10,18 +10,27 @@
 (global-display-line-numbers-mode)
 (show-paren-mode 1)
 (ido-mode)
+(desktop-save-mode 1)
 
 ;; optional if you want which-key integration
 (use-package which-key
-    :config
-    (which-key-mode)
+    :config (which-key-mode)
     :ensure t)
 
 (use-package autothemer :ensure t)
 (use-package company :ensure t)
-
-(require 'eglot)
-(add-to-list 'eglot-server-programs '((c++-mode c-mode) "clangd"))
-(add-hook 'c-mode-hook 'eglot-ensure)
-(add-hook 'c++-mode-hook 'eglot-ensure)
-(add-hook 'python-mode-hook 'eglot-ensure)
+(use-package eglot
+  :bind (:map eglot-mode-map
+              ("C-c d" . eldoc)
+              ("C-c a" . eglot-code-actions)
+              ("C-c f" . flymake-show-buffer-diagnostics)
+              ("C-c r" . eglot-rename))
+  :config (add-to-list 'eglot-server-programs '((c++-mode c-mode) "clangd"))
+  :hook (
+	 (c-mode . eglot-ensure)
+	 (c++mode . eglot-ensure)
+	 (python-mode . eglot-ensure))
+  :ensure t)
+(use-package vertico
+  :config (vertico-mode 1)
+  :ensure t)
