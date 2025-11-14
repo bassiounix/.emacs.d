@@ -12,11 +12,9 @@
 (ido-mode)
 (desktop-save-mode 1)
 
-;; optional if you want which-key integration
 (use-package which-key
     :config (which-key-mode)
     :ensure t)
-
 (use-package autothemer :ensure t)
 (use-package company :ensure t)
 (use-package eglot
@@ -33,4 +31,7 @@
   :ensure t)
 (use-package vertico
   :config (vertico-mode 1)
+  :ensure t)
+(use-package marginalia
+  :config (marginalia-mode 1)
   :ensure t)
