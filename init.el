@@ -8,6 +8,7 @@
   (setq-default auto-composition-mode t)
   (setq use-default-font-for-symbols nil
 	inhibit-compacting-font-caches t
+	custom-file (expand-file-name "custom.el" user-emacs-directory)
 	display-line-numbers-type 'relative
 	backup-directory-alist '(("." . "~/.emacs.d/backups")))
 
@@ -23,9 +24,11 @@
 
   (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
 
+  (load custom-file 'noerror)
+
   :custom
   (window-sides-vertical t)
- 
+
   ;; TAB cycle if there are only few candidates
   ;; (completion-cycle-threshold 3)
 
@@ -60,7 +63,6 @@
   :init (add-to-list 'major-mode-remap-alist '(rust-mode . rust-ts-mode))
   :hook
   (rust-ts-mode . eglot-ensure)
-  (rust-ts-mode . company-mode)
   :config
   (add-to-list 'exec-path "~/.cargo/bin")
   (setenv "PATH" (concat (getenv "PATH") ":~/.cargo/bin"))
@@ -72,8 +74,7 @@
               ("<f5>" . recompile)
               ("<f6>" . eglot-format))
   :hook
-  (python-ts-mode . eglot-ensure)
-  (python-ts-mode . company-mode))
+  (python-ts-mode . eglot-ensure))
 
 (use-package cc-mode
   :init
@@ -81,8 +82,7 @@
   (add-to-list 'major-mode-remap-alist '(c++-mode . c++-ts-mode))
   :config (add-to-list 'eglot-server-programs '((c++-ts-mode c-ts-mode) "clangd"))
   :hook
-  ((c-ts-mode c++-ts-mode) . eglot-ensure)
-  ((c-ts-mode c++-ts-mode) . company-mode))
+  ((c-ts-mode c++-ts-mode) . eglot-ensure))
 
 ;; Insert Melpa packages after here
 (use-package vertico
@@ -116,6 +116,7 @@
   ;; Enable Corfu only for certain modes. See also `global-corfu-modes'.
   :hook ((prog-mode . corfu-mode)
          (shell-mode . corfu-mode)
+         (vterm-mode . corfu-mode)
          (eshell-mode . corfu-mode))
   :init
   (global-corfu-mode 1)
@@ -166,3 +167,9 @@
   :custom
   (repeat-mode +1)
   :ensure t)
+
+(use-package vterm
+  :ensure t
+  :init
+  (cl-letf (((symbol-function 'y-or-n-p) (lambda (&rest _) t)))
+    (require 'vterm)))
