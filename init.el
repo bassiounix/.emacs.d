@@ -84,7 +84,6 @@
   :hook
   ((c-ts-mode c++-ts-mode) . eglot-ensure))
 
-;; Insert Melpa packages after here
 (use-package vertico
   :config (vertico-mode 1)
   :ensure t
@@ -105,8 +104,8 @@
 
 (use-package corfu
   ;; Optional customizations
-  ;; :custom
-  ;; (corfu-cycle t)                ;; Enable cycling for `corfu-next/previous'
+  :custom
+  (corfu-cycle t)                ;; Enable cycling for `corfu-next/previous'
   ;; (corfu-quit-at-boundary nil)   ;; Never quit at completion boundary
   ;; (corfu-quit-no-match nil)      ;; Never quit, even if there is no match
   ;; (corfu-preview-current nil)    ;; Disable current candidate preview
@@ -122,7 +121,7 @@
   (global-corfu-mode 1)
   ;; Enable optional extension modes:
   ;; (corfu-history-mode)
-  ;;(corfu-popupinfo-mode))
+  (corfu-popupinfo-mode)
   :ensure t
   :pin gnu)
 
@@ -140,7 +139,7 @@
 
   :custom
   ;; Turn on global bindings for setting breakpoints with mouse
-  (dape-breakpoint-global-mode +1)
+  (dape-breakpoint-global-mode 1)
 
   ;; Info buffers to the right
   ;; (dape-buffer-window-arrangement 'right)
@@ -156,16 +155,16 @@
   ;; (add-hook 'dape-display-source-hook #'pulse-momentary-highlight-one-line)
 
   ;; Save buffers on startup, useful for interpreted languages
-  ;; (add-hook 'dape-start-hook (lambda () (save-some-buffers t t)))
+  (add-hook 'dape-start-hook (lambda () (save-some-buffers t t)))
 
   ;; Kill compile buffer on build success
-  ;; (add-hook 'dape-compile-hook #'kill-buffer)
+  (add-hook 'dape-compile-hook #'kill-buffer)
   :ensure t)
 
 ;; For a more ergonomic Emacs and `dape' experience
 (use-package repeat
   :custom
-  (repeat-mode +1)
+  (repeat-mode 1)
   :ensure t)
 
 (use-package vterm
