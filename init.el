@@ -172,3 +172,6 @@
   :init
   (cl-letf (((symbol-function 'y-or-n-p) (lambda (&rest _) t)))
     (require 'vterm)))
+
+(use-package magit
+  :ensure t)
