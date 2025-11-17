@@ -247,9 +247,11 @@
 
   :config
   ;; Keybindings
-  (define-key LaTeX-mode-map (kbd "TAB") 'TeX-complete-symbol)
-  (define-key LaTeX-mode-map (kbd "C-c C-p") 'reftex-parse-all)
-  (define-key LaTeX-mode-map (kbd "C-c C-g") #'pdf-sync-forward-search)
+  (with-eval-after-load 'latex
+
+    (define-key LaTeX-mode-map (kbd "TAB") 'TeX-complete-symbol)
+    (define-key LaTeX-mode-map (kbd "C-c C-p") 'reftex-parse-all)
+    (define-key LaTeX-mode-map (kbd "C-c C-g") #'pdf-sync-forward-search))
 
   ;; TeX folding
   (setq TeX-fold-env-spec-list
@@ -381,6 +383,11 @@
   ;; (keymap-set consult-narrow-map (concat consult-narrow-key " ?") #'consult-narrow-help)
   :ensure t
   :pin gnu)
+
+(use-package project
+  :custom
+  (project-mode-line t)
+  (project-kill-buffers-display-buffer-list t))
 
 (use-package embark
   :ensure t
