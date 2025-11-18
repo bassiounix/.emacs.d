@@ -49,7 +49,9 @@
   ;; Hide commands in M-x which do not apply to the current mode.  Corfu
   ;; commands are hidden, since they are not used via M-x. This setting is
   ;; useful beyond Corfu.
-  (read-extended-command-predicate #'command-completion-default-include-p))
+  (read-extended-command-predicate #'command-completion-default-include-p)
+
+  (treesit-font-lock-level 4))
 
 (use-package which-key
     :config (which-key-mode 1)
@@ -65,27 +67,33 @@
   :ensure t
   :pin gnu)
 
-(use-package rust-mode
-  :init (add-to-list 'major-mode-remap-alist '(rust-mode . rust-ts-mode))
+(use-package rust-ts-mode
+  ;; Not needed because of treesit-auto pkg
+  ;; :init (add-to-list 'major-mode-remap-alist '(rust-mode . rust-ts-mode))
   :hook
   (rust-ts-mode . eglot-ensure)
   :config
   (add-to-list 'exec-path "~/.cargo/bin")
-  (setenv "PATH" (concat (getenv "PATH") ":~/.cargo/bin"))
-  :ensure t)
+  (setenv "PATH" (concat (getenv "PATH") ":~/.cargo/bin")))
 
 (use-package python
-  :init (add-to-list 'major-mode-remap-alist '(python-mode . python-ts-mode))
+  ;; Not needed because of treesit-auto pkg
+  ;; :init (add-to-list 'major-mode-remap-alist '(python-mode . python-ts-mode))
   :bind (:map python-ts-mode-map
               ("<f5>" . recompile)
               ("<f6>" . eglot-format))
   :hook
   (python-ts-mode . eglot-ensure))
 
+(use-package pyvenv
+  :config (pyvenv-mode 1)
+  :ensure t)
+
 (use-package cc-mode
-  :init
-  (add-to-list 'major-mode-remap-alist '(c-mode . c-ts-mode))
-  (add-to-list 'major-mode-remap-alist '(c++-mode . c++-ts-mode))
+  ;; Not needed because of treesit-auto pkg
+  ;; :init
+  ;; (add-to-list 'major-mode-remap-alist '(c-mode . c-ts-mode))
+  ;; (add-to-list 'major-mode-remap-alist '(c++-mode . c++-ts-mode))
   :config (add-to-list 'eglot-server-programs '((c++-ts-mode c-ts-mode) "clangd"))
   :hook
   ((c-ts-mode c++-ts-mode) . eglot-ensure))
@@ -249,7 +257,6 @@
   :config
   ;; Keybindings
   (with-eval-after-load 'latex
-
     (define-key LaTeX-mode-map (kbd "TAB") 'TeX-complete-symbol)
     (define-key LaTeX-mode-map (kbd "C-c C-p") 'reftex-parse-all)
     (define-key LaTeX-mode-map (kbd "C-c C-g") #'pdf-sync-forward-search))
@@ -429,3 +436,11 @@
   :ensure t ; only need to install it, embark loads it after consult if found
   :hook
   (embark-collect-mode . consult-preview-at-point-mode))
+
+(use-package treesit-auto
+  :custom
+  (treesit-auto-install 'prompt)
+  :config
+  (treesit-auto-add-to-auto-mode-alist 'all)
+  (global-treesit-auto-mode)
+  :ensure t)
